@@ -1,1 +1,116 @@
 @import "tailwindcss";
+
+/* ---------- Variables ---------- */
+:root {
+  /* Grayscale Palette */
+  --gray-900: #131313;
+  --gray-700: #3C3C3C;
+  --gray-500: #646464;
+  --gray-300: #858585;
+  --gray-100: #F3F3F3;
+
+  /* Purple Palette */
+  --purple-900: #0A0016;
+  --purple-700: #4A0754;
+  --purple-600: #800080;
+  --purple-400: #AB00C0;
+  --purple-300: #D500FF;
+
+  --font-sans: 'Inter', sans-serif;
+}
+html {
+  scroll-behavior: smooth;
+}
+
+/* ---------- Custom Utility Classes ---------- */
+.bg-dark {
+  background-color: var(--gray-900);
+}
+
+.text-light {
+  color: var(--gray-100);
+}
+
+.btn-primary {
+  background-color: var(--purple-600);
+  color: white;
+  padding: 0.5rem 1.25rem;
+  border-radius: 9999px;
+  transition: background 0.3s ease;
+}
+.btn-primary:hover {
+  background-color: var(--purple-400);
+}
+
+.card-info {
+  background-color: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  transition: all 0.3s ease-in-out;
+}
+.card-info:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: scale(1.05);
+  border-color: rgba(171, 0, 192, 0.5); /* purple-400 */
+}
+
+.gradient-text {
+  background: linear-gradient(
+    90deg,
+    #4a0754,
+    #800080,
+    #ab00c0,
+    #d500ff
+  );
+  background-size: 300% 300%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: gradientFlow 6s ease infinite;
+}
+
+/* ---------- Animations ---------- */
+@keyframes gradientFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes gradient-x {
+  0%, 100% {
+    background-size: 200% 200%;
+    background-position: left center;
+  }
+  50% {
+    background-size: 200% 200%;
+    background-position: right center;
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-gradient-x {
+  animation: gradient-x 4s ease infinite;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 1s ease-out;
+}
+ 
