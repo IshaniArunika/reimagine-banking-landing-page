@@ -119,12 +119,12 @@ export default function Speakers() {
         {speakers.map((speaker, index) => (
           <div
             key={index}
-            className="bg-white shadow-lg rounded-xl overflow-hidden p-4 text-center transition-all duration-300 cursor-pointer hover:shadow-xl hover:scale-105 border border-purple-200 hover:border-purple-400 h-70"
+            className="bg-white shadow-lg rounded-xl overflow-hidden p-4 text-center transition-all duration-300 cursor-pointer hover:shadow-xl hover:scale-105 border border-purple-200 hover:border-purple-400 hover:bg-[#d5b6db] h-78"
           >
             <img
               src={speaker.image}
               alt={speaker.name}
-              className="w-38 h-38 rounded-full object-cover mb-4 border-3 border-purple-200 mx-auto"
+              className="w-48 h-48 rounded-full object-cover mb-4 border-3 border-purple-200 mx-auto"
             />
             <h3 className="text-base font-bold text-gray-800 mb-2 leading-tight">{speaker.name}</h3>
             <p className="text-xs text-gray-600 mb-1 leading-tight">{speaker.title}</p>
