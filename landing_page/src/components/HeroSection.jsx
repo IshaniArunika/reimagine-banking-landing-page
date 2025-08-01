@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronDown, Sparkles } from 'lucide-react';
 import Navbar from './Navbar';
-
+import finastraLogo from '../assets/finastra-boardroom.png';
 export default function HeroSection() {
   const [showDetails, setShowDetails] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -71,6 +71,11 @@ export default function HeroSection() {
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
+          <img
+            src={finastraLogo}
+            alt="Finastra Logo"
+            className="h-8 md:h-12 mx-auto mb-4 drop-shadow-lg"
+          />
           <h1
             className={`text-6xl md:text-9xl font-black text-center leading-tight mb-4 transition-all duration-700 ${
               isHovered ? 'scale-105' : 'scale-100'
@@ -94,7 +99,7 @@ export default function HeroSection() {
         </div>
 
         {showDetails && (
-          <div className="mt-0 space-y-0 animate-fade-in-up px-0">
+          <div className="mt-[-50px] space-y-0 animate-fade-in-up px-0">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-3xl mx-auto">
               <div className="group bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-3 hover:bg-white/10 transition-all duration-300 hover:scale-105 hover:border-purple-400/50">
                 <span className="text-xs font-medium text-gray-400 uppercase tracking-wider">Date</span>
