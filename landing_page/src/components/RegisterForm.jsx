@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import { registerUser } from "../services/registerService"; 
 
 const RegisterForm = () => {
   const [formData, setFormData] = useState({
@@ -19,19 +22,40 @@ const RegisterForm = () => {
     setFormData({ ...formData, [name]: type === "checkbox" ? checked : value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
-    alert("Thank you for registering!");
+    if (!formData.firstName || !formData.lastName || !formData.email || !formData.consent) {
+      toast.error("Please fill all required fields and agree to the privacy policy.");
+      return;
+    }
+    try {
+      const response = await registerUser(formData);
+      console.log("Registration respnse:", response);
+      toast.success("Thank you for registering!");
+      setFormData({
+        firstName: "",
+        lastName: "",
+        jobTitle: "",
+        company: "",
+        mobile: "",
+        email: "",
+        website: "",
+        consent: false,
+      });
+    } catch (err) {
+      let message = "Registration failed. Please try again.";
+      try {
+        const errData = JSON.parse(err.message);
+        if (errData.error) message = errData.error;
+      } catch {
+        if (err.message) message = err.message;
+      }
+      toast.error(message);
+    }
   };
 
-  const handleFocus = (fieldName) => {
-    setFocusedField(fieldName);
-  };
-
-  const handleBlur = () => {
-    setFocusedField(null);
-  };
+  const handleFocus = (fieldName) => setFocusedField(fieldName);
+  const handleBlur = () => setFocusedField(null);
 
   const inputStyle = (fieldName) => `
     bg-gray-800 bg-opacity-80 backdrop-blur-sm border border-gray-600 rounded-lg px-4 py-3 w-full 
@@ -57,9 +81,7 @@ const RegisterForm = () => {
               <div className="w-24 h-1 bg-gradient-to-r from-purple-600 to-purple-300 mx-auto rounded-full transform transition-all duration-500 hover:w-32 hover:h-2" />
             </div>
           </div>
-
-          <div className="bg-gray-800 bg-opacity-50 backdrop-blur-xl border border-gray-600 border-opacity-30 rounded-xl p-8 space-y-6 transition-all duration-300 hover:bg-opacity-70 hover:border-purple-400 hover:border-opacity-50">
-            {/* Single column layout */}
+          <form onSubmit={handleSubmit} className="bg-gray-800 bg-opacity-50 backdrop-blur-xl border border-gray-600 border-opacity-30 rounded-xl p-8 space-y-6 transition-all duration-300 hover:bg-opacity-70 hover:border-purple-400 hover:border-opacity-50">
             <div className="space-y-6">
               <div className="relative">
                 <input
@@ -74,7 +96,6 @@ const RegisterForm = () => {
                   required
                 />
               </div>
-              
               <div className="relative">
                 <input
                   type="text"
@@ -88,7 +109,6 @@ const RegisterForm = () => {
                   required
                 />
               </div>
-
               <div className="relative">
                 <input
                   type="text"
@@ -99,10 +119,8 @@ const RegisterForm = () => {
                   onFocus={() => handleFocus('jobTitle')}
                   onBlur={handleBlur}
                   className={inputStyle('jobTitle')}
-                  required
                 />
               </div>
-
               <div className="relative">
                 <input
                   type="text"
@@ -113,10 +131,8 @@ const RegisterForm = () => {
                   onFocus={() => handleFocus('company')}
                   onBlur={handleBlur}
                   className={inputStyle('company')}
-                  required
                 />
               </div>
-
               <div className="relative">
                 <input
                   type="tel"
@@ -127,10 +143,8 @@ const RegisterForm = () => {
                   onFocus={() => handleFocus('mobile')}
                   onBlur={handleBlur}
                   className={inputStyle('mobile')}
-                  required
                 />
               </div>
-
               <div className="relative">
                 <input
                   type="email"
@@ -144,7 +158,6 @@ const RegisterForm = () => {
                   required
                 />
               </div>
-
               <div className="relative">
                 <input
                   type="url"
@@ -155,11 +168,9 @@ const RegisterForm = () => {
                   onFocus={() => handleFocus('website')}
                   onBlur={handleBlur}
                   className={inputStyle('website')}
-                  required
                 />
               </div>
             </div>
-
             <div className="flex items-start p-4 bg-purple-800 bg-opacity-30 rounded-lg border border-purple-500 border-opacity-40">
               <input
                 type="checkbox"
@@ -173,20 +184,30 @@ const RegisterForm = () => {
                 By filling out the registration form to attend our event, you agree and consent to Cogent Solutions{" "}
                 <a href="#" className="text-purple-400 underline hover:text-purple-300 transition-colors duration-300">
                   Privacy Policy
-                </a>
-                .
+                </a>.
               </label>
             </div>
-
             <button
-              onClick={handleSubmit}
+              type="submit"
               className="w-full py-4 px-6 bg-gradient-to-r from-purple-700 via-purple-600 to-purple-500 hover:from-purple-600 hover:via-purple-500 hover:to-purple-400 text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-xl hover:shadow-purple-500/25 focus:outline-none focus:ring-4 focus:ring-purple-500 focus:ring-opacity-50 active:scale-95"
             >
-              <span className="relative z-10">Register Now</span>
+              Register Now
             </button>
-          </div>
+          </form>
         </div>
       </section>
+      <ToastContainer
+        position="top-right"
+        autoClose={4000}
+        hideProgressBar={false}
+        newestOnTop={true}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
     </div>
   );
 };
